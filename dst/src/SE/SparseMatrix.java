@@ -27,10 +27,16 @@ public class SparseMatrix {
 		
 		
 		
-		void add(int value, int i, int j) {
+		void add( int i, int j, int value) {
 			SMValue cellValue = new SMValue(i,j,value);
 			this.valueList.addLast(cellValue);
 			
+			return;
+		}
+		
+		// default value is 1
+		void add( int i, int j) {
+			this.add(i,j, 1);
 			return;
 		}
 		
@@ -61,11 +67,15 @@ public class SparseMatrix {
 					
 				} // end for column
 				sb.append("\n");
-		}// end for row
+			}// end for row
 			System.out.println(sb);
 			
-	}// showSM() ends
+		}// showSM() ends
 		
+
+		
+		
+	// find groups -- diagonals are not groups, only adjacents are
 	public void findGroups(){
 		int grp=0;
 		
@@ -87,6 +97,16 @@ public class SparseMatrix {
 		System.out.println("Number of groups:" + grp);
 		return;
 	}
+	
+	public SparseMatrix transpose() {
+		SparseMatrix SMT = new SparseMatrix(this.columns, this.rows);
+		
+		for (SMValue smv :this.valueList){
+			SMT.add(smv.c, smv.r, smv.v);
+			System.out.println( smv.c + "," +smv.r + ":" + smv.v);
+		}
+		return SMT;		
+	}
 		
 
 	/**
@@ -96,14 +116,13 @@ public class SparseMatrix {
 		// TODO Auto-generated method stub
 		SparseMatrix s1 = new SparseMatrix(3,3);
 		
-		s1.add(1,0,0);
-		s1.add(1,1,1);
-		//s1.add(1,2,1);
-		s1.add(1,2,2);
+		s1.add(1,0);
+		s1.add(1,1);
+		s1.add(2,1);
+		s1.add(2,2);
 		s1.showSM();
 		s1.findGroups();
-		
-
+		//s1.transpose();
 	}
 
 }
